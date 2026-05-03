@@ -7,16 +7,27 @@
       const LIFF_ID = "2009961909-HZiaQUsh";
 
       document.addEventListener("DOMContentLoaded", function() {
-        log("DOMContentLoaded発火");
-        log("liffの型: " + typeof liff);
+        log("起動");
 
         liff.init({ liffId: LIFF_ID })
           .then(() => {
-            log("LIFF初期化OK");
+            log("初期化OK");
             log("ログイン状態: " + liff.isLoggedIn());
+            log("環境: " + (liff.isInClient() ? "LINE内" : "外部ブラウザ"));
+
+            if (!liff.isLoggedIn()) {
+              log("ログイン試行中...");
+              liff.login();
+            } else {
+              liff.getProfile().then(p => {
+                log("UserID取得: " + p.userId);
+              }).catch(err => {
+                log("getProfile失敗: " + err);
+              });
+            }
           })
           .catch(err => {
-            log("LIFF初期化失敗: " + JSON.stringify(err));
+            log("初期化失敗: " + JSON.stringify(err));
           });
       });
 
