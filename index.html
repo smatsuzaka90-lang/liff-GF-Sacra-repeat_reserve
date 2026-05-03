@@ -2,41 +2,27 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <script src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
     <script>
       const LIFF_ID = "2009961909-HZiaQUsh";
+      const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd6VJ7qG3JmUk87jF7rXt__dMtuGOWpVejZlksFxRwSPOucMA/viewform?usp=pp_url&entry.1781354897=";
 
       document.addEventListener("DOMContentLoaded", function() {
-        log("起動");
-
         liff.init({ liffId: LIFF_ID })
           .then(() => {
-            log("初期化OK");
-            log("ログイン状態: " + liff.isLoggedIn());
-            log("環境: " + (liff.isInClient() ? "LINE内" : "外部ブラウザ"));
-
             if (!liff.isLoggedIn()) {
-              log("ログイン試行中...");
               liff.login();
             } else {
               liff.getProfile().then(p => {
-                log("UserID取得: " + p.userId);
-              }).catch(err => {
-                log("getProfile失敗: " + err);
+                window.location.replace(FORM_URL + encodeURIComponent(p.userId));
               });
             }
-          })
-          .catch(err => {
-            log("初期化失敗: " + JSON.stringify(err));
           });
       });
-
-      function log(msg) {
-        document.getElementById("log").innerHTML += msg + "<br>";
-      }
     </script>
   </head>
-  <body>
-    <div id="log" style="padding:20px;font-size:14px;"></div>
+  <body style="margin:0;display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;color:#999;">
+    <p>予約画面へ移動中...</p>
   </body>
 </html>
