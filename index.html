@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <script src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
     <script>
       const LIFF_ID = "2009961909-HZiaQUsh";
@@ -15,22 +16,17 @@
             } else {
               liff.getProfile().then(p => {
                 const url = FORM_URL + encodeURIComponent(p.userId);
-                log("リダイレクト先: " + url);
-                setTimeout(() => {
-                  log("リダイレクト実行");
-                  window.location.replace(url);
-                }, 2000);
+                liff.openWindow({
+                  url: url,
+                  external: true
+                });
               });
             }
           });
       });
-
-      function log(msg) {
-        document.getElementById("log").innerHTML += msg + "<br>";
-      }
     </script>
   </head>
-  <body>
-    <div id="log" style="padding:20px;font-size:14px;"></div>
+  <body style="margin:0;display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;color:#999;">
+    <p>予約画面へ移動中...</p>
   </body>
 </html>
