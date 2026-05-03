@@ -5,20 +5,27 @@
     <script src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
     <script>
       const LIFF_ID = "2009961909-HZiaQUsh";
-      const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd6VJ7qG3JmUk87jF7rXt__dMtuGOWpVejZlksFxRwSPOucMA/viewform?usp=pp_url&entry.1781354897=";
 
-      liff.init({ liffId: LIFF_ID }).then(() => {
-        if (!liff.isLoggedIn()) {
-          liff.login();
-        } else {
-          liff.getProfile().then(p => {
-            window.location.replace(FORM_URL + encodeURIComponent(p.userId));
+      document.addEventListener("DOMContentLoaded", function() {
+        log("DOMContentLoaded発火");
+        log("liffの型: " + typeof liff);
+
+        liff.init({ liffId: LIFF_ID })
+          .then(() => {
+            log("LIFF初期化OK");
+            log("ログイン状態: " + liff.isLoggedIn());
+          })
+          .catch(err => {
+            log("LIFF初期化失敗: " + JSON.stringify(err));
           });
-        }
       });
+
+      function log(msg) {
+        document.getElementById("log").innerHTML += msg + "<br>";
+      }
     </script>
   </head>
   <body>
-    <p>予約画面へ移動中...</p>
+    <div id="log" style="padding:20px;font-size:14px;"></div>
   </body>
 </html>
